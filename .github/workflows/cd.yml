@@ -1,0 +1,23 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Go app
+        run: |
+          go version
+          go mod tidy
+          go build -o queue-service main.go
+
+      - name: Run tests
+        run: |
+          go test ./...
